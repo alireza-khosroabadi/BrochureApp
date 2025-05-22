@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="brochureScreen_title">Brochure List</string>
+    <string name="BrochureScreen_offline_data">⚠️ You\'re offline. Showing cached data.</string>
+</resources>
