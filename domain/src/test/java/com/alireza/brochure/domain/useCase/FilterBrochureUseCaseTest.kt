@@ -1,7 +1,6 @@
 package com.alireza.brochure.domain.useCase
 
 import com.alireza.brochure.domain.model.baseResult.BaseResult
-import com.alireza.brochure.domain.model.brochure.Brochure
 import com.alireza.brochure.domain.model.brochure.RegularBrochure
 import com.alireza.brochure.domain.repository.BrochureRepository
 import junit.framework.TestCase.assertEquals
@@ -30,7 +29,7 @@ class FilterBrochureUseCaseTest {
     @Test
     fun `invoke returns all brochures when filterByDistance is false`() = runTest {
 
-        val cachedBrochures = repository.cachedBrochureList()
+        val cachedBrochures = repository.getCachedBrochureList()
 
         val result = useCase.invoke(false)
 

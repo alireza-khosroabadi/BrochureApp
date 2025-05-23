@@ -9,18 +9,15 @@ import javax.inject.Inject
 class FilterBrochureUseCase @Inject constructor(private val repository: BrochureRepository){
 
     suspend fun invoke(filterByDistance: Boolean, distance: Double = 5.0): BaseResult<List<Brochure>>{
-        val cached = repository.cachedBrochureList()
-
+        val cached = repository.getCachedBrochureList()
         if (isOfflineAndEmpty(cached)) {
             return BaseResult.Failure(AppError.NoInternet)
         }
-
         val filtered = if (filterByDistance) {
             cached.filter { it.distance <= distance }
         } else {
             cached
         }
-
         return BaseResult.Success(filtered)
     }
 }

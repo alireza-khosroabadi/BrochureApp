@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface BrochureApiService {
     @GET("shelf.json")
-    suspend fun brochureList(): Response<BrochureListDto>
+    suspend fun getBrochureList(): Response<BrochureListDto>
 
 }

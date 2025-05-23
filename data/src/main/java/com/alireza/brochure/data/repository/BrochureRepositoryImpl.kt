@@ -19,25 +19,20 @@ class BrochureRepositoryImpl @Inject constructor(
 ) : BrochureRepository {
 
     @Suppress("UNCHECKED_CAST")
-    override suspend fun brochureList(): BaseResult<List<Brochure>> {
+    override suspend fun getBrochureList(): BaseResult<List<Brochure>> {
         return try {
-            val response = brochureApiService.brochureList()
-
+            val response = brochureApiService.getBrochureList()
             if (!response.isSuccessful) {
                 return BaseResult.Failure(
                     AppError.ServerError(response.errorBody()?.string())
                 )
             }
-
             // Parse and store new data
             val parsed = processResponse(response.body()?.embedded?.contents)
             localDataStore.set(parsed)
-
             // Always read from cache and filter
             val result = localDataStore.get().orEmpty().filter(::isValidBrochure)
-
             BaseResult.Success(result)
-
         } catch (e: IOException) {
             // No internet — fallback to cached data
             val cached = localDataStore.get().orEmpty().filter(::isValidBrochure)
@@ -53,7 +48,7 @@ class BrochureRepositoryImpl @Inject constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override suspend fun cachedBrochureList(): List<Brochure> {
+    override suspend fun getCachedBrochureList(): List<Brochure> {
         return localDataStore.get().orEmpty().filter(::isValidBrochure) as List<Brochure>
     }
 

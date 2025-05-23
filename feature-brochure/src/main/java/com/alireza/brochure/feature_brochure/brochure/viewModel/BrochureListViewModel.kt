@@ -6,7 +6,7 @@ import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
 import com.alireza.brochure.core.dispatcher.IoDispatcher
 import com.alireza.brochure.domain.model.baseResult.BaseResult
 import com.alireza.brochure.domain.model.brochure.Brochure
-import com.alireza.brochure.domain.useCase.BrochureListUseCase
+import com.alireza.brochure.domain.useCase.GetBrochureListUseCase
 import com.alireza.brochure.domain.useCase.FilterBrochureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BrochureListViewModel @Inject constructor(
-    private val getBrochureListUseCase: BrochureListUseCase,
+    private val getBrochureListUseCase: GetBrochureListUseCase,
     private val filterBrochureUseCase: FilterBrochureUseCase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {

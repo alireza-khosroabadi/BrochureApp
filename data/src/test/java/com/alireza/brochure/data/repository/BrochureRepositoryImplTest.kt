@@ -43,11 +43,11 @@ class BrochureRepositoryImplTest {
 
         val expectedResult = brochureList
 
-        coEvery { brochureApiService.brochureList() } returns response
+        coEvery { brochureApiService.getBrochureList() } returns response
         every { localDataStore.get() } returns expectedResult as List<BrochureModel>?
         every { localDataStore.set(any()) } returns Unit
 
-        val result = brochureRepository.brochureList()
+        val result = brochureRepository.getBrochureList()
 
         assertTrue(result is BaseResult.Success)
         assertEquals(brochureList, (result as BaseResult.Success).data)
@@ -58,10 +58,10 @@ class BrochureRepositoryImplTest {
 
         val response = Response.success(BrochureListDto())
 
-        coEvery { brochureApiService.brochureList() } returns response
+        coEvery { brochureApiService.getBrochureList() } returns response
         every { localDataStore.set(any()) } returns Unit
 
-        brochureRepository.brochureList()
+        brochureRepository.getBrochureList()
 
         verify(exactly = 1) { localDataStore.set(emptyList()) }
     }
@@ -70,9 +70,9 @@ class BrochureRepositoryImplTest {
     fun `brochureList returns failure when api call fails`() = runTest {
 
         val errorResponse = Response.error<BrochureListDto>(500, "Error".toResponseBody())
-        coEvery { brochureApiService.brochureList() } returns errorResponse
+        coEvery { brochureApiService.getBrochureList() } returns errorResponse
 
-        val result = brochureRepository.brochureList()
+        val result = brochureRepository.getBrochureList()
 
         assertTrue(result is BaseResult.Failure)
         assertTrue((result as BaseResult.Failure).error is AppError.ServerError)
@@ -81,11 +81,11 @@ class BrochureRepositoryImplTest {
     @Test
     fun `brochureList returns cached data when api call throws IOException and cache is not empty`() = runTest {
 
-        coEvery { brochureApiService.brochureList() } throws IOException()
+        coEvery { brochureApiService.getBrochureList() } throws IOException()
         val cachedData = brochureList
         every { localDataStore.get() } returns cachedData as List<BrochureModel>?
 
-        val result = brochureRepository.brochureList()
+        val result = brochureRepository.getBrochureList()
 
         assertTrue(result is BaseResult.Success)
         assertEquals(cachedData, (result as BaseResult.Success).data)
@@ -100,7 +100,7 @@ class BrochureRepositoryImplTest {
         val expectedResult = brochureList
         every { localDataStore.get() } returns cachedData as List<BrochureModel>?
 
-        val result = brochureRepository.cachedBrochureList()
+        val result = brochureRepository.getCachedBrochureList()
 
         assertEquals(expectedResult, result)
     }

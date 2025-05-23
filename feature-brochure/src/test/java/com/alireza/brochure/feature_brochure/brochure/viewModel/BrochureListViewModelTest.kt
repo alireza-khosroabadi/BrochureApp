@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.alireza.brochure.domain.model.appError.AppError
 import com.alireza.brochure.domain.model.baseResult.BaseResult
 import com.alireza.brochure.domain.model.brochure.RegularBrochure
-import com.alireza.brochure.domain.useCase.BrochureListUseCase
+import com.alireza.brochure.domain.useCase.GetBrochureListUseCase
 import com.alireza.brochure.domain.useCase.FilterBrochureUseCase
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
 import io.mockk.coEvery
@@ -26,7 +26,7 @@ class BrochureListViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private lateinit var getBrochureListUseCase: BrochureListUseCase
+    private lateinit var getBrochureListUseCase: GetBrochureListUseCase
     private lateinit var filterBrochureUseCase: FilterBrochureUseCase
     private lateinit var viewModel: BrochureListViewModel
 
