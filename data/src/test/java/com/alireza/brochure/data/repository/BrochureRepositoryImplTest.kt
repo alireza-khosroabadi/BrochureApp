@@ -4,9 +4,9 @@ import com.alireza.brochure.data.fakeData.brochureList
 import com.alireza.brochure.data.localCache.LocalDataStore
 import com.alireza.brochure.data.remote.apiService.BrochureApiService
 import com.alireza.brochure.data.remote.dto.BrochureListDto
-import com.alireza.brochure.domain.model.appError.AppError
-import com.alireza.brochure.domain.model.baseResult.BaseResult
 import com.alireza.brochure.domain.model.brochure.BrochureModel
+import com.alireza.brochureApp.common.model.appError.AppError
+import com.alireza.brochureApp.common.model.baseResult.BaseResult
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

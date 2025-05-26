@@ -1,8 +1,8 @@
 package com.alireza.brochure.feature_brochure.brochure.state
 
 import androidx.compose.runtime.Stable
-import com.alireza.brochure.domain.model.appError.AppError
 import com.alireza.brochure.domain.model.brochure.Brochure
+import com.alireza.brochureApp.common.model.appError.AppError
 
 @Stable
 sealed class BrochureUiState {

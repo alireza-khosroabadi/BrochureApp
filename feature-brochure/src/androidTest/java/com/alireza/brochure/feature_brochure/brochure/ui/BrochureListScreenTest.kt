@@ -3,11 +3,10 @@ package com.alireza.brochure.feature_brochure.brochure.ui
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.alireza.brochure.domain.model.brochure.RegularBrochure
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
 import com.alireza.brochure.feature_brochure.brochure.viewModel.BrochureListViewModel
-import com.alireza.brochure.domain.model.appError.AppError
-import com.alireza.brochure.domain.model.brochure.Brochure
-import com.alireza.brochure.domain.model.brochure.RegularBrochure
+import com.alireza.brochureApp.common.model.appError.AppError
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow

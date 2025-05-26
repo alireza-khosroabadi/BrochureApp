@@ -1,10 +1,10 @@
 package com.alireza.brochure.feature_brochure.brochure.ui.previewProvider
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.alireza.brochure.domain.model.appError.AppError
 import com.alireza.brochure.domain.model.brochure.PremiumBrochure
 import com.alireza.brochure.domain.model.brochure.RegularBrochure
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
+import com.alireza.brochureApp.common.model.appError.AppError
 
 class BrochureScreenParameterProvider: PreviewParameterProvider<BrochureUiState> {
     override val values: Sequence<BrochureUiState>

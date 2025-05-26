@@ -1,4 +1,4 @@
-package com.alireza.brochure.domain.model.appError
+package com.alireza.brochureApp.common.model.appError
 
 sealed class AppError {
     object NoInternet : AppError()
