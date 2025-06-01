@@ -33,6 +33,7 @@ import com.alireza.brochure.core.ui.loadingScreen.LoadingComponent
 import com.alireza.brochure.feature_brochure.R
 import com.alireza.brochure.feature_brochure.brochure.ui.previewProvider.BrochureScreenParameterProvider
 import com.alireza.brochure.core.ui.emptyState.EmptyStateScreen
+import com.alireza.brochure.core.ui.errorScreen.ErrorScreen
 import com.alireza.brochure.core.ui.theme.BrochureAppTheme
 
 @Composable

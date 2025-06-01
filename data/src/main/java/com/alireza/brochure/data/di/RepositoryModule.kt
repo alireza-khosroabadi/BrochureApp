@@ -2,9 +2,9 @@ package com.alireza.brochure.data.di
 
 import com.alireza.brochure.data.localCache.LocalDataStore
 import com.alireza.brochure.data.localCache.LocalDataStoreImpl
-import com.alireza.brochure.data.remote.apiService.BrochureApiService
 import com.alireza.brochure.data.repository.BrochureRepositoryImpl
 import com.alireza.brochure.domain.repository.BrochureRepository
+import com.alireza.brochure.netwrok.NetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,9 +22,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideBrochureRepository(
-        api: BrochureApiService,
+        networkDataSource: NetworkDataSource,
         localDataStore: LocalDataStore
     ): BrochureRepository {
-        return BrochureRepositoryImpl(api, localDataStore)
+        return BrochureRepositoryImpl(networkDataSource, localDataStore)
     }
 }

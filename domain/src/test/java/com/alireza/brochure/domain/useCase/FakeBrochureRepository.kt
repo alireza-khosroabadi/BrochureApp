@@ -4,7 +4,7 @@ import com.alireza.brochure.domain.model.brochure.Brochure
 import com.alireza.brochure.domain.model.brochure.PremiumBrochure
 import com.alireza.brochure.domain.model.brochure.RegularBrochure
 import com.alireza.brochure.domain.repository.BrochureRepository
-import com.alireza.brochureApp.common.model.baseResult.BaseResult
+import com.alireza.brochure.domain.model.baseResult.BaseResult
 
 class FakeBrochureRepository: BrochureRepository {
     override suspend fun getBrochureList(): BaseResult<List<Brochure>> {

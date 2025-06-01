@@ -43,7 +43,8 @@ android {
 
 dependencies {
 
-    implementation(project(":core"))
+    implementation(project(":core:core"))
+    implementation(project(":di"))
     implementation(project(":feature-brochure"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

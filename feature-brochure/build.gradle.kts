@@ -50,8 +50,8 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":data"))
-    implementation(project(":core"))
-    implementation(project(":common"))
+//    implementation(project(":di"))
+    implementation(project(":core:core"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -63,7 +63,6 @@ dependencies {
     implementation(libs.androidx.material.icon)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.material)
-    implementation(libs.hilt)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.hilt)

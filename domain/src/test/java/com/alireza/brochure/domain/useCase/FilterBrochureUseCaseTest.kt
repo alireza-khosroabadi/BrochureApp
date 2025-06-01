@@ -2,7 +2,7 @@ package com.alireza.brochure.domain.useCase
 
 import com.alireza.brochure.domain.model.brochure.RegularBrochure
 import com.alireza.brochure.domain.repository.BrochureRepository
-import com.alireza.brochureApp.common.model.baseResult.BaseResult
+import com.alireza.brochure.domain.model.baseResult.BaseResult
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
 import org.junit.Test

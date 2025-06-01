@@ -2,8 +2,8 @@ package com.alireza.brochure.domain.useCase
 
 import com.alireza.brochure.domain.model.brochure.Brochure
 import com.alireza.brochure.domain.repository.BrochureRepository
-import com.alireza.brochureApp.common.model.appError.AppError
-import com.alireza.brochureApp.common.model.baseResult.BaseResult
+import com.alireza.brochure.domain.model.appError.AppError
+import com.alireza.brochure.domain.model.baseResult.BaseResult
 import javax.inject.Inject
 
 class FilterBrochureUseCase @Inject constructor(private val repository: BrochureRepository){

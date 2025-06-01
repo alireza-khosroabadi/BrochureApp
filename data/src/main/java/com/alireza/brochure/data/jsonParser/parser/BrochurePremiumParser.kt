@@ -2,9 +2,8 @@ package com.alireza.brochure.data.jsonParser.parser
 
 import com.alireza.brochure.data.jsonParser.JsonParser
 import com.alireza.brochure.data.mapper.toBrochurePremiumDomainModel
-import com.alireza.brochure.data.remote.dto.BrochureDto
-import com.alireza.brochure.domain.model.brochure.Brochure
 import com.alireza.brochure.domain.model.brochure.BrochureModel
+import com.alireza.brochure.netwrok.model.BrochureDto
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement

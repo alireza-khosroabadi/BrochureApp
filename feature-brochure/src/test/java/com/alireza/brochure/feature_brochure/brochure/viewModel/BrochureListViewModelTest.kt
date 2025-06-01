@@ -5,8 +5,8 @@ import com.alireza.brochure.domain.model.brochure.RegularBrochure
 import com.alireza.brochure.domain.useCase.FilterBrochureUseCase
 import com.alireza.brochure.domain.useCase.GetBrochureListUseCase
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
-import com.alireza.brochureApp.common.model.appError.AppError
-import com.alireza.brochureApp.common.model.baseResult.BaseResult
+import com.alireza.brochure.domain.model.appError.AppError
+import com.alireza.brochure.domain.model.baseResult.BaseResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

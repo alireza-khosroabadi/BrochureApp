@@ -38,8 +38,8 @@ android {
 dependencies {
 
     implementation(project(":domain"))
-    implementation(project(":common"))
-    implementation(project(":core"))
+    implementation(project(":core:core"))
+    implementation(project(":core:network"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
