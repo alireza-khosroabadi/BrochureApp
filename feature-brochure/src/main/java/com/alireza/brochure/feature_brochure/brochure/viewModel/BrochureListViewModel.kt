@@ -3,12 +3,12 @@ package com.alireza.brochure.feature_brochure.brochure.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
-import com.alireza.brochure.core.dispatcher.IoDispatcher
-import com.alireza.brochure.core.ui.errorScreen.ErrorUiModel
+import com.alireza.brochure.data.di.IoDispatcher
+import com.alireza.brochure.ui.component.errorScreen.ErrorUiModel
 import com.alireza.brochure.domain.model.brochure.Brochure
-import com.alireza.brochure.domain.useCase.GetBrochureListUseCase
 import com.alireza.brochure.domain.useCase.FilterBrochureUseCase
 import com.alireza.brochure.domain.model.baseResult.BaseResult
+import com.alireza.brochure.domain.repository.BrochureRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BrochureListViewModel @Inject constructor(
-    private val getBrochureListUseCase: GetBrochureListUseCase,
+    private val repository: BrochureRepository,
     private val filterBrochureUseCase: FilterBrochureUseCase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -44,7 +44,7 @@ class BrochureListViewModel @Inject constructor(
     fun fetchBrochure(){
         viewModelScope.launch(ioDispatcher) {
             _isFilterActive.emit(false)
-            when (val result = getBrochureListUseCase.invoke()) {
+            when (val result = repository.getBrochureList()) {
                 is BaseResult.Failure -> _uiState.emit(BrochureUiState.Error(ErrorUiModel(result.error.getErrorMessage())))
                 is BaseResult.Success -> handleSuccessUiState(result)
             }

@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.alireza.brochure.designsystem.theme.BrochureAppTheme
 import com.alireza.brochure.feature_brochure.brochure.ui.BrochureListScreen
-import com.alireza.brochure.core.ui.theme.BrochureAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

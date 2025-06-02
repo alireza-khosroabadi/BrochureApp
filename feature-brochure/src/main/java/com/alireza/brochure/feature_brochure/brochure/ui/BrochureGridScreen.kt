@@ -25,8 +25,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.alireza.brochure.core.ui.asyncImageLoader.AsyncImageLoader
-import com.alireza.brochure.core.ui.theme.BrochureAppTheme
+import com.alireza.brochure.designsystem.component.AsyncImageLoader
+import com.alireza.brochure.designsystem.theme.BrochureAppTheme
 import com.alireza.brochure.domain.model.brochure.Brochure
 import com.alireza.brochure.domain.model.brochure.PremiumBrochure
 import com.alireza.brochure.domain.model.brochure.RegularBrochure

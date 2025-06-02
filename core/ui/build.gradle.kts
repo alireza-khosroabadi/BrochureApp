@@ -4,11 +4,10 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.alireza.brochure.feature_brochure"
+    namespace = "com.alireza.brochure.ui"
     compileSdk = 35
 
     defaultConfig {
@@ -34,23 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
-
-    packaging {
-        resources {
-            excludes += "META-INF/LICENSE.md"
-            excludes += "META-INF/LICENSE-notice.md"
-        }
-    }
 }
 
 dependencies {
 
-    implementation(project(":domain"))
-    implementation(project(":data"))
-    implementation(project(":core:ui"))
     implementation(project(":core:designSystem"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -60,27 +46,20 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icon)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.material)
+    implementation(libs.androidx.material.icon)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.lifecycle.viewModelCompose)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.coil.compose)
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-    implementation(libs.kotlinx.coroutines.android)
 
     testImplementation(libs.junit)
-    testImplementation(libs.mockito.inline)
-    testImplementation(libs.mockito.kotlin)
-    testImplementation(libs.mockk)
-    testImplementation(libs.turbine)
-    testImplementation(libs.kotlinx.coroutines.test)
-
-    androidTestImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

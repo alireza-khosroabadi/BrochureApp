@@ -29,12 +29,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
 import com.alireza.brochure.feature_brochure.brochure.viewModel.BrochureListViewModel
-import com.alireza.brochure.core.ui.loadingScreen.LoadingComponent
+import com.alireza.brochure.ui.component.loadingScreen.LoadingComponent
 import com.alireza.brochure.feature_brochure.R
 import com.alireza.brochure.feature_brochure.brochure.ui.previewProvider.BrochureScreenParameterProvider
-import com.alireza.brochure.core.ui.emptyState.EmptyStateScreen
-import com.alireza.brochure.core.ui.errorScreen.ErrorScreen
-import com.alireza.brochure.core.ui.theme.BrochureAppTheme
+import com.alireza.brochure.ui.component.emptyState.EmptyStateScreen
+import com.alireza.brochure.ui.component.errorScreen.ErrorScreen
+import com.alireza.brochure.designsystem.theme.BrochureAppTheme
 
 @Composable
 fun BrochureListScreen(viewModel: BrochureListViewModel = hiltViewModel()) {

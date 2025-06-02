@@ -1,7 +1,7 @@
 package com.alireza.brochure.feature_brochure.brochure.ui.previewProvider
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.alireza.brochure.core.ui.errorScreen.ErrorUiModel
+import com.alireza.brochure.ui.component.errorScreen.ErrorUiModel
 import com.alireza.brochure.domain.model.brochure.PremiumBrochure
 import com.alireza.brochure.domain.model.brochure.RegularBrochure
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState

@@ -22,8 +22,8 @@ dependencyResolutionManagement {
 rootProject.name = "BrochureApp"
 include(":app")
 include(":data")
-include(":core:core")
+include(":core:ui")
 include(":domain")
 include(":feature-brochure")
-include(":di")
 include(":core:network")
+include(":core:designSystem")
