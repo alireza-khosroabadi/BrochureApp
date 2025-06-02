@@ -3,10 +3,10 @@ package com.alireza.brochure.data.repository
 import com.alireza.brochure.data.jsonParser.BrochureParserFactory
 import com.alireza.brochure.data.localCache.LocalDataStore
 import com.alireza.brochure.data.mapper.ErrorMapper
-import com.alireza.brochure.domain.model.appError.AppError
-import com.alireza.brochure.domain.model.baseResult.BaseResult
-import com.alireza.brochure.domain.model.brochure.Brochure
-import com.alireza.brochure.domain.model.brochure.BrochureModel
+import com.alireza.brochure.model.appError.AppError
+import com.alireza.brochure.model.baseResult.BaseResult
+import com.alireza.brochure.model.brochure.Brochure
+import com.alireza.brochure.model.brochure.BrochureModel
 import com.alireza.brochure.domain.repository.BrochureRepository
 import com.alireza.brochure.netwrok.NetworkDataSource
 import com.alireza.brochure.netwrok.model.ContentDto

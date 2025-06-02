@@ -27,9 +27,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.alireza.brochure.designsystem.component.AsyncImageLoader
 import com.alireza.brochure.designsystem.theme.BrochureAppTheme
-import com.alireza.brochure.domain.model.brochure.Brochure
-import com.alireza.brochure.domain.model.brochure.PremiumBrochure
-import com.alireza.brochure.domain.model.brochure.RegularBrochure
+import com.alireza.brochure.model.brochure.Brochure
+import com.alireza.brochure.model.brochure.PremiumBrochure
+import com.alireza.brochure.model.brochure.RegularBrochure
 import com.alireza.brochure.feature_brochure.brochure.ui.previewProvider.BrochureGridPreviewParameter
 
 

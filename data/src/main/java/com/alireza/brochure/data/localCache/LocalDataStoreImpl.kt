@@ -1,6 +1,6 @@
 package com.alireza.brochure.data.localCache
 
-import com.alireza.brochure.domain.model.brochure.BrochureModel
+import com.alireza.brochure.model.brochure.BrochureModel
 
 class LocalDataStoreImpl: LocalDataStore {
     private var brochures: List<BrochureModel>? = null

@@ -1,4 +1,4 @@
-package com.alireza.brochure.domain.model.brochure
+package com.alireza.brochure.model.brochure
 
 
 interface BrochureModel

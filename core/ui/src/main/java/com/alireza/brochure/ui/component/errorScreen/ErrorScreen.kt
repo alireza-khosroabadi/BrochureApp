@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alireza.brochure.designsystem.theme.BrochureAppTheme
+import com.alireza.brochure.model.appError.AppError
 
 @Composable
 fun ErrorScreen(
@@ -30,12 +31,6 @@ fun ErrorScreen(
     appError: ErrorUiModel,
     onRetryClick: () -> Unit
 ) {
-//    val errorMessage = when (appError) {
-//        AppError.NoInternet -> "No internet connection. Please check your network."
-//        is AppError.ServerError -> appError.message ?: "Server error. Try again later."
-//        AppError.Timeout -> "Request timed out. Please retry."
-//        is AppError.Unknown -> appError.message ?: "Something went wrong."
-//    }
 
     Column(
         modifier = modifier
@@ -56,7 +51,7 @@ fun ErrorScreen(
         )
 
         Text(
-            text = appError.message,
+            text = appError.getErrorMessage(),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.error,
             textAlign = TextAlign.Center
@@ -80,6 +75,6 @@ fun ErrorScreen(
 @Composable
 fun ErrorScreenPreview(){
     BrochureAppTheme {
-        ErrorScreen(appError = ErrorUiModel("NoInternet")){}
+        ErrorScreen(appError = ErrorUiModel(AppError.NoInternet)){}
     }
 }

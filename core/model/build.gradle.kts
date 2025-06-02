@@ -11,11 +11,3 @@ kotlin {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
 }
-
-dependencies{
-    implementation(project(":core:model"))
-    implementation(libs.javax.inject)
-    testImplementation(kotlin("test"))
-    testImplementation(libs.junit)
-    testImplementation(libs.kotlinx.coroutines.test)
-}

@@ -2,11 +2,11 @@ package com.alireza.brochure.feature_brochure.brochure.viewModel
 
 import app.cash.turbine.test
 import com.alireza.brochure.ui.component.errorScreen.ErrorUiModel
-import com.alireza.brochure.domain.model.brochure.RegularBrochure
+import com.alireza.brochure.model.brochure.RegularBrochure
 import com.alireza.brochure.domain.useCase.FilterBrochureUseCase
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
-import com.alireza.brochure.domain.model.appError.AppError
-import com.alireza.brochure.domain.model.baseResult.BaseResult
+import com.alireza.brochure.model.appError.AppError
+import com.alireza.brochure.model.baseResult.BaseResult
 import com.alireza.brochure.domain.repository.BrochureRepository
 import io.mockk.coEvery
 import io.mockk.mockk

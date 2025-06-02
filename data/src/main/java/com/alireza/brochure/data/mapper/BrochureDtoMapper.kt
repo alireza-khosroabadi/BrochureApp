@@ -1,8 +1,8 @@
 package com.alireza.brochure.data.mapper
 
-import com.alireza.brochure.domain.model.brochure.PremiumBrochure
-import com.alireza.brochure.domain.model.brochure.RegularBrochure
-import com.alireza.brochure.domain.model.brochure.SuperBannerContent
+import com.alireza.brochure.model.brochure.PremiumBrochure
+import com.alireza.brochure.model.brochure.RegularBrochure
+import com.alireza.brochure.model.brochure.SuperBannerContent
 import com.alireza.brochure.netwrok.model.BrochureDto
 import com.alireza.brochure.netwrok.model.SuperBannerCarouselDto
 

@@ -1,6 +1,6 @@
 package com.alireza.brochure.data.mapper
 
-import com.alireza.brochure.domain.model.appError.AppError
+import com.alireza.brochure.model.appError.AppError
 import kotlinx.coroutines.TimeoutCancellationException
 import java.io.IOException
 

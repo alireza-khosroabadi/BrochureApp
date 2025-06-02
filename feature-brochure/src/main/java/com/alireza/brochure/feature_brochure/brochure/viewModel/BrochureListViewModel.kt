@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
 import com.alireza.brochure.data.di.IoDispatcher
 import com.alireza.brochure.ui.component.errorScreen.ErrorUiModel
-import com.alireza.brochure.domain.model.brochure.Brochure
+import com.alireza.brochure.model.brochure.Brochure
 import com.alireza.brochure.domain.useCase.FilterBrochureUseCase
-import com.alireza.brochure.domain.model.baseResult.BaseResult
+import com.alireza.brochure.model.baseResult.BaseResult
 import com.alireza.brochure.domain.repository.BrochureRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -45,7 +45,7 @@ class BrochureListViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             _isFilterActive.emit(false)
             when (val result = repository.getBrochureList()) {
-                is BaseResult.Failure -> _uiState.emit(BrochureUiState.Error(ErrorUiModel(result.error.getErrorMessage())))
+                is BaseResult.Failure -> _uiState.emit(BrochureUiState.Error(ErrorUiModel(result.error)))
                 is BaseResult.Success -> handleSuccessUiState(result)
             }
         }
@@ -63,7 +63,7 @@ class BrochureListViewModel @Inject constructor(
         viewModelScope.launch {
             _isFilterActive.update { !it }
             when (val result = filterBrochureUseCase.invoke(isFilterActive.value)) {
-                is BaseResult.Failure -> _uiState.emit(BrochureUiState.Error(ErrorUiModel(result.error.getErrorMessage())))
+                is BaseResult.Failure -> _uiState.emit(BrochureUiState.Error(ErrorUiModel(result.error)))
                 is BaseResult.Success -> handleSuccessUiState(result)
             }
         }
