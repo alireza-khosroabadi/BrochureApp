@@ -1,106 +1,116 @@
-# Modular Android Application
+# BrochureApp
 
-This is a modular Android application. It displays a list of brochures with support for filtering based on distance, offline cache, and clean error handling using Jetpack Compose and Clean Architecture principles.
+A modern Android application built with Jetpack Compose, following clean architecture principles and MVVM pattern. This app provides a platform for browsing and managing brochures with a focus on user experience and performance.
 
----
+## 🚀 Features
 
-## 💡 Features
+- **Modern UI**: Built with Jetpack Compose and Material 3
+- **Clean Architecture**: Following SOLID principles and separation of concerns
+- **MVVM Pattern**: For better separation of UI and business logic
+- **Dependency Injection**: Using Hilt for efficient dependency management
+- **Modular Structure**: Feature-based modularization for better scalability
+- **Offline Support**: Caching mechanism for offline access
+- **Error Handling**: Graceful error handling and user feedback
+- **Testing**: Comprehensive test coverage including unit and UI tests
 
-- 📍 Filter brochures within 5km
-- 🔌 Offline support using in-memory cache
-- 💥 Graceful error handling (e.g. no internet, server error)
-- 🎨 Built fully with Jetpack Compose
-- 🧪 Unit tested ViewModel and UseCases
+## 🛠 Tech Stack
 
----
+- **Language**: Kotlin
+- **UI Framework**: Jetpack Compose
+- **Architecture Pattern**: MVVM
+- **Dependency Injection**: Hilt
+- **Minimum SDK**: 24
+- **Target SDK**: 35
+- **Build System**: Gradle (Kotlin DSL)
 
-## 🧱 Architecture
+## 📦 Project Structure
 
-The project follows **Clean Architecture**:
-- **Domain layer** is platform-agnostic and pure Kotlin
-- **Data layer** handles API calls and local cache
-- **Feature module** contains UI + ViewModel
-- **Core module** provides reusable UI and utilities
+The project follows a modular architecture with the following modules:
 
-Each layer depends only on the layer directly below it.
+- `app`: Main application module
+- `core`: Core functionality modules
+  - `ui`: Common UI components
+  - `designSystem`: Design system components
+- `feature-brochure`: Brochure feature module
+- `data`: Data layer implementation
+- `domain`: Domain layer with business logic
 
----
+## 🔄 Module Dependencies
 
-## 🧰 Tech Stack
+See the detailed module dependencies in [docs/module-dependencies.md](docs/module-dependencies.md)
 
-- **Kotlin**
-- **Jetpack Compose**
-- **Hilt (Dependency Injection)**
-- **Coroutines + Flow**
-- **Retrofit**
-- **MockK + JUnit + Turbine** (for unit testing)
+## 🏗 Architecture
 
----
+The project follows Clean Architecture principles with the following layers:
 
-## 🔧 Content Parsing Strategy
+- **Presentation Layer**: UI components and ViewModels
+- **Domain Layer**: Business logic and use cases
+- **Data Layer**: Repository implementations and data sources
 
-To support multiple `contentType` values from the API (e.g., `"brochure"`, `"brochurePremium"`, `"superBannerCarousel"`, etc.), the `content` field is stored as a raw `JsonElement`. A simple **factory pattern** is used to parse this into the correct data model based on its `contentType`.
+### Key Components
 
-This design allows:
+- **Use Cases**: Business logic implementation
+- **Repositories**: Data access abstraction
+- **ViewModels**: UI state management
+- **Compose UI**: Modern UI implementation
+- **DI Modules**: Dependency injection setup
 
-- 🧩 Easy extension for new content types in the future
-- 🔄 Loose coupling between API response and app logic
-- 🧼 Clean separation of parsing logic per content type
+## 🚀 Getting Started
 
----
+### Prerequisites
 
-## 💡 API Notes
+- Android Studio Hedgehog (2023.1.1) or later
+- JDK 11 or later
+- Android SDK 35
+- Kotlin 1.9.0 or later
 
-### 🔐 API Configuration
+### Installation
 
-For simplicity and clarity during the coding challenge, the **API base URL is currently hardcoded** in the Retrofit setup.
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/BrochureApp.git
+```
 
-In a real-world project, I would follow best practices by externalizing sensitive or environment-specific configuration values (such as base URLs, API keys, etc.) using a `secrets.defaults.properties` file or managing them via **Gradle build config** and **CI/CD secrets**.
+2. Open the project in Android Studio
 
-This approach was chosen intentionally to make the project easy to run and review, without requiring extra configuration steps.
+3. Sync the project with Gradle files
 
----
+4. Run the application on an emulator or physical device
 
-## 🚀 Run the App
+## 🧪 Testing
 
-1. Open in Android Studio (Giraffe or newer)
-2. Build and run the app module (configured by default)
-3. Requires network on first launch to fetch brochures
+The project includes comprehensive testing:
 
----
+- **Unit Tests**: Testing business logic and ViewModels
+- **UI Tests**: Testing Compose UI components
+- **Integration Tests**: Testing module interactions
+- **Test Coverage**: Aiming for high test coverage
 
-## 🧪 Tests
+### Running Tests
 
-- ViewModel unit tests for:
-    - Loading, success, empty, and error states
-    - Filter toggle and offline fallback
-- UseCase logic fully testable
-- Uses `StandardTestDispatcher`, `MockK`, and `Turbine`
+```bash
+# Run all tests
+./gradlew test
 
----
+# Run specific test module
+./gradlew :feature-brochure:test
+```
 
-## 📝 Assumptions
+## 📱 Screenshots
 
-- `distance` is already provided by the API
-- Only content types `"brochure"` and `"brochurePremium"` are considered valid
-- Cache is kept in-memory and is cleared when the app process ends
+[Add screenshots of your app here]
 
----
+## 🔧 Configuration
 
-## 🚀 Future Improvements
+The app can be configured through:
 
-- [ ] Replace in-memory cache with Room or DataStore for persistence
-- [ ] Add pagination for large brochure lists
-- [ ] Add more Compose UI tests
-- [ ] Implement better offline-first UX (e.g., last updated label)
-- [ ] Cache raw DTOs or use local entities for versioning/offline filtering
+- `local.properties`: Local development settings
+- `gradle.properties`: Build configuration
+- Environment variables for API endpoints
 
-> 🧠 Due to time constraints and to keep the implementation lightweight, I used in-memory caching of domain models. For production, I would introduce persistent storage (Room or DataStore), potentially with a local-first strategy and pagination support.
+## 🙏 Acknowledgments
 
----
-
-## 👨‍💻 Author
-
-**Alireza Khosrowabadi**  
-Senior Android Engineer
-
+- [Jetpack Compose](https://developer.android.com/jetpack/compose)
+- [Material 3](https://m3.material.io/)
+- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) 

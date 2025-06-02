@@ -1,9 +1,9 @@
 package com.alireza.brochure.feature_brochure.brochure.ui.previewProvider
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.alireza.brochure.domain.model.brochure.Brochure
-import com.alireza.brochure.domain.model.brochure.PremiumBrochure
-import com.alireza.brochure.domain.model.brochure.RegularBrochure
+import com.alireza.brochure.model.brochure.Brochure
+import com.alireza.brochure.model.brochure.PremiumBrochure
+import com.alireza.brochure.model.brochure.RegularBrochure
 
 class BrochureGridPreviewParameter : PreviewParameterProvider<List<Brochure>> {
     override val values: Sequence<List<Brochure>>

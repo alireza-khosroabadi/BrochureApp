@@ -2,9 +2,9 @@ package com.alireza.brochure.data.jsonParser.parser
 
 import com.alireza.brochure.data.jsonParser.JsonParser
 import com.alireza.brochure.data.mapper.toSuperBannerCarousel
-import com.alireza.brochure.data.remote.dto.SuperBannerCarouselDto
-import com.alireza.brochure.domain.model.brochure.BrochureModel
-import com.alireza.brochure.domain.model.brochure.SuperBannerCarousel
+import com.alireza.brochure.model.brochure.BrochureModel
+import com.alireza.brochure.model.brochure.SuperBannerCarousel
+import com.alireza.brochure.netwrok.model.SuperBannerCarouselDto
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement

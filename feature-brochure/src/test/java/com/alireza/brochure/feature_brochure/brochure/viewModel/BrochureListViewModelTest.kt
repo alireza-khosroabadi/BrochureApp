@@ -1,12 +1,13 @@
 package com.alireza.brochure.feature_brochure.brochure.viewModel
 
 import app.cash.turbine.test
-import com.alireza.brochure.domain.model.brochure.RegularBrochure
+import com.alireza.brochure.ui.component.errorScreen.ErrorUiModel
+import com.alireza.brochure.model.brochure.RegularBrochure
 import com.alireza.brochure.domain.useCase.FilterBrochureUseCase
-import com.alireza.brochure.domain.useCase.GetBrochureListUseCase
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
-import com.alireza.brochureApp.common.model.appError.AppError
-import com.alireza.brochureApp.common.model.baseResult.BaseResult
+import com.alireza.brochure.model.appError.AppError
+import com.alireza.brochure.model.baseResult.BaseResult
+import com.alireza.brochure.domain.repository.BrochureRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -26,16 +27,16 @@ class BrochureListViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private lateinit var getBrochureListUseCase: GetBrochureListUseCase
+    private lateinit var repository: BrochureRepository
     private lateinit var filterBrochureUseCase: FilterBrochureUseCase
     private lateinit var viewModel: BrochureListViewModel
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        getBrochureListUseCase = mockk()
+        repository = mockk()
         filterBrochureUseCase = mockk()
-        viewModel = BrochureListViewModel(getBrochureListUseCase, filterBrochureUseCase, testDispatcher)
+        viewModel = BrochureListViewModel(repository, filterBrochureUseCase, testDispatcher)
     }
 
 
@@ -56,7 +57,7 @@ class BrochureListViewModelTest {
     @Test
     fun `fetchBrochure emits Success when data is available`() = runTest {
         val brochures = listOf(RegularBrochure("1", "Brochure 1", 3.0, "image1.jpg"))
-        coEvery { getBrochureListUseCase() } returns BaseResult.Success(brochures)
+        coEvery { repository.getBrochureList() } returns BaseResult.Success(brochures)
 
         viewModel.uiState.test {
             val loadingState = awaitItem()
@@ -69,7 +70,7 @@ class BrochureListViewModelTest {
 
     @Test
     fun `fetchBrochure emits EmptyState when data is empty`() = runTest {
-        coEvery { getBrochureListUseCase() } returns BaseResult.Success(emptyList())
+        coEvery { repository.getBrochureList() } returns BaseResult.Success(emptyList())
 
         viewModel.uiState.test {
             val loadingState = awaitItem()
@@ -84,14 +85,16 @@ class BrochureListViewModelTest {
 
     @Test
     fun `fetchBrochure emits Error on failure`() = runTest {
-        coEvery { getBrochureListUseCase() } returns BaseResult.Failure(AppError.NoInternet)
+        coEvery { repository.getBrochureList() } returns BaseResult.Failure(AppError.NoInternet)
+
+        val expected = ErrorUiModel(AppError.NoInternet.getErrorMessage())
 
         viewModel.uiState.test {
             val loadingState = awaitItem()
             assertTrue(loadingState is BrochureUiState.Loading)
             val state = awaitItem()
             assertTrue(state is BrochureUiState.Error)
-            assertEquals(AppError.NoInternet, (state as BrochureUiState.Error).error)
+            assertEquals(expected, (state as BrochureUiState.Error).error)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -100,7 +103,7 @@ class BrochureListViewModelTest {
     @Test
     fun `toggleFilter updates isFilterActive and emits filtered result`() = runTest {
         val brochures = listOf(RegularBrochure("1", "Brochure 1", 3.0, "image1.jpg"))
-        coEvery { getBrochureListUseCase() } returns BaseResult.Success(brochures)
+        coEvery { repository.getBrochureList() } returns BaseResult.Success(brochures)
         coEvery { filterBrochureUseCase.invoke(true) } returns BaseResult.Success(brochures)
 
 

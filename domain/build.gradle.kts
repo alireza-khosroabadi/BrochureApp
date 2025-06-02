@@ -13,8 +13,8 @@ kotlin {
 }
 
 dependencies{
+    implementation(project(":core:model"))
     implementation(libs.javax.inject)
-    implementation(project(":common"))
     testImplementation(kotlin("test"))
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
