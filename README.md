@@ -31,6 +31,8 @@ The project follows a modular architecture with the following modules:
 - `core`: Core functionality modules
   - `ui`: Common UI components
   - `designSystem`: Design system components
+  - `network`: Network handling and API clients
+  - `model`: Common data models and entities
 - `feature-brochure`: Brochure feature module
 - `data`: Data layer implementation
 - `domain`: Domain layer with business logic
@@ -54,6 +56,9 @@ The project follows Clean Architecture principles with the following layers:
 - **ViewModels**: UI state management
 - **Compose UI**: Modern UI implementation
 - **DI Modules**: Dependency injection setup
+- **Network**: API clients and network handling
+- **Models**: Common data structures
+
 
 ## 🚀 Getting Started
 
