@@ -9,6 +9,7 @@ import com.alireza.brochure.model.brochure.Brochure
 import com.alireza.brochure.domain.useCase.FilterBrochureUseCase
 import com.alireza.brochure.model.baseResult.BaseResult
 import com.alireza.brochure.domain.repository.BrochureRepository
+import com.alireza.brochure.model.brochure.BrochureModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +52,7 @@ class BrochureListViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleSuccessUiState(result: BaseResult.Success<List<Brochure>>) {
+    private suspend fun handleSuccessUiState(result: BaseResult.Success<List<BrochureModel>>) {
         if (result.data.isEmpty()) {
             _uiState.emit(BrochureUiState.EmptyState)
         } else {
@@ -60,12 +61,12 @@ class BrochureListViewModel @Inject constructor(
     }
 
     fun toggleFilter() {
-        viewModelScope.launch {
-            _isFilterActive.update { !it }
-            when (val result = filterBrochureUseCase.invoke(isFilterActive.value)) {
-                is BaseResult.Failure -> _uiState.emit(BrochureUiState.Error(ErrorUiModel(result.error)))
-                is BaseResult.Success -> handleSuccessUiState(result)
-            }
-        }
+//        viewModelScope.launch {
+//            _isFilterActive.update { !it }
+//            when (val result = filterBrochureUseCase.invoke(isFilterActive.value)) {
+//                is BaseResult.Failure -> _uiState.emit(BrochureUiState.Error(ErrorUiModel(result.error)))
+//                is BaseResult.Success -> handleSuccessUiState(result)
+//            }
+//        }
     }
 }

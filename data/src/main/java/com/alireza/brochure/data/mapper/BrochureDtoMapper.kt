@@ -1,30 +1,34 @@
 package com.alireza.brochure.data.mapper
 
-import com.alireza.brochure.model.brochure.PremiumBrochure
-import com.alireza.brochure.model.brochure.RegularBrochure
-import com.alireza.brochure.model.brochure.SuperBannerContent
+import com.alireza.brochure.database.entity.BaseBrochure
+import com.alireza.brochure.database.entity.BrochureEntity
+import com.alireza.brochure.database.entity.StoreLocationEntity
+import com.alireza.brochure.database.entity.SuperBannerEntity
 import com.alireza.brochure.netwrok.model.BrochureDto
 import com.alireza.brochure.netwrok.model.SuperBannerCarouselDto
 
-fun BrochureDto.toBrochureDomainModel(): RegularBrochure = RegularBrochure(
-        id = contentId.orEmpty(),
-        name = title.orEmpty(),
+fun BrochureDto.toBrochureEntity(index: Int, type: String): BaseBrochure.BrochureWrapperEntity = BaseBrochure.BrochureWrapperEntity(
+    BrochureEntity(
+        contentId = contentId.orEmpty(),
+        title = title.orEmpty(),
         distance = distance?:0.0,
         imageUrl = brochureImage.orEmpty(),
+        publishedFrom= publishedFrom.orEmpty(),
+        publishedUntil = publishedUntil.orEmpty(),
+        type = type,
+        validFrom = validFrom.orEmpty(),
+        validUntil = validUntil.orEmpty(),
+        orderIndex = index,
+        storeLocation = closestStore?.toStoreLocationEntity()?: StoreLocationEntity()
+    )
 )
 
-fun BrochureDto.toBrochurePremiumDomainModel(): PremiumBrochure = PremiumBrochure(
-        id = contentId.orEmpty(),
-        name = title.orEmpty(),
-        distance = distance?:0.0,
-        imageUrl = brochureImage.orEmpty(),
-)
-
-fun SuperBannerCarouselDto.toSuperBannerCarousel(): SuperBannerContent =  SuperBannerContent(
+fun SuperBannerCarouselDto.toSuperBannerEntity(index: Int, groupId: String): SuperBannerEntity =  SuperBannerEntity(
     id = id.orEmpty(),
-    publisherId = publisher?.id.orEmpty(),
+    imageUrl = imageUrl.orEmpty(),
     publishedFrom= publishedFrom.orEmpty(),
     publishedUntil = publishedUntil.orEmpty(),
-    imageUrl = imageUrl.orEmpty(),
-    clickUrl = clickUrl.orEmpty()
+    orderIndex = index,
+    clickUrl = clickUrl.orEmpty(),
+    groupId = groupId
 )

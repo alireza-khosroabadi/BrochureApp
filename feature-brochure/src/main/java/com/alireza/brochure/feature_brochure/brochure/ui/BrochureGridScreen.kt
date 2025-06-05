@@ -31,10 +31,12 @@ import com.alireza.brochure.model.brochure.Brochure
 import com.alireza.brochure.model.brochure.PremiumBrochure
 import com.alireza.brochure.model.brochure.RegularBrochure
 import com.alireza.brochure.feature_brochure.brochure.ui.previewProvider.BrochureGridPreviewParameter
+import com.alireza.brochure.model.brochure.BrochureModel
+import com.alireza.brochure.model.brochure.SuperBannerCarousel
 
 
 @Composable
-fun BrochureGrid(brochures: List<Brochure>) {
+fun BrochureGrid(brochures: List<BrochureModel>) {
     val configuration = LocalConfiguration.current
     val columns = remember(configuration) {
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 3 else 2
@@ -48,7 +50,7 @@ fun BrochureGrid(brochures: List<Brochure>) {
     ) {
         items(
             items = brochures,
-            key = { item -> item.id },
+            key = { item -> item.hashCode() },
             span = { item ->
                 val span = if (item is RegularBrochure) 1 else columns
                 GridItemSpan(span)
@@ -58,12 +60,12 @@ fun BrochureGrid(brochures: List<Brochure>) {
             when (item) {
                 is RegularBrochure -> BrochureItem(regularBrochure = item)
                 is PremiumBrochure -> BrochurePremiumItem(brochure = item)
+                is SuperBannerCarousel -> {}
             }
-            }
-
         }
-    }
 
+    }
+}
 
 
 @Composable
@@ -131,26 +133,40 @@ fun BrochureItem(regularBrochure: RegularBrochure) {
 
 @Preview
 @Composable
-private fun BrochureItemPreview(){
+private fun BrochureItemPreview() {
     BrochureAppTheme {
-        BrochureItem(regularBrochure = RegularBrochure(id = "1", name = "number 0", distance = 5.0, imageUrl = ""))
+        BrochureItem(
+            regularBrochure = RegularBrochure(
+                id = "1",
+                name = "number 0",
+                distance = 5.0,
+                imageUrl = ""
+            )
+        )
     }
 }
 
 @Preview
 @Composable
-private fun BrochurePremiumItemPreview(){
+private fun BrochurePremiumItemPreview() {
     BrochureAppTheme {
-        BrochurePremiumItem(brochure = PremiumBrochure(id = "2", name = "number 0", distance = 5.0, imageUrl = ""))
+        BrochurePremiumItem(
+            brochure = PremiumBrochure(
+                id = "2",
+                name = "number 0",
+                distance = 5.0,
+                imageUrl = ""
+            )
+        )
     }
 }
 
 
 @Preview
 @Composable
-private fun BrochureGridPreview(@PreviewParameter(BrochureGridPreviewParameter::class) brochureList: List<Brochure>){
+private fun BrochureGridPreview(@PreviewParameter(BrochureGridPreviewParameter::class) brochureList: List<Brochure>) {
     BrochureAppTheme {
-        BrochureGrid(brochures = brochureList)
+//        BrochureGrid(brochures = brochureList)
     }
 }
 
