@@ -5,6 +5,7 @@ package com.alireza.brochure.feature_brochure.brochure.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,7 +61,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun BrochureGrid(brochures: List<BrochureModel>) {
+fun BrochureGrid(brochures: List<BrochureModel>,  onBrochureClick: (brochureId: String) -> Unit) {
     val configuration = LocalConfiguration.current
     val columns = remember(configuration) {
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 3 else 2
@@ -85,8 +86,8 @@ fun BrochureGrid(brochures: List<BrochureModel>) {
             contentType = { it }
         ) { item ->
             when (item) {
-                is RegularBrochure -> BrochureItem(regularBrochure = item)
-                is PremiumBrochure -> BrochurePremiumItem(brochure = item)
+                is RegularBrochure -> BrochureItem(regularBrochure = item, onBrochureClick)
+                is PremiumBrochure -> BrochurePremiumItem(brochure = item, onBrochureClick)
                 is SuperBannerCarousel -> BannerCarousel(item.banner)
             }
         }
@@ -96,9 +97,9 @@ fun BrochureGrid(brochures: List<BrochureModel>) {
 
 
 @Composable
-fun BrochurePremiumItem(brochure: PremiumBrochure) {
+fun BrochurePremiumItem(brochure: PremiumBrochure,  onBrochureClick: (brochureId: String) -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable{onBrochureClick.invoke(brochure.id)},
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {
@@ -128,9 +129,9 @@ fun BrochurePremiumItem(brochure: PremiumBrochure) {
 }
 
 @Composable
-fun BrochureItem(regularBrochure: RegularBrochure) {
+fun BrochureItem(regularBrochure: RegularBrochure,  onBrochureClick: (brochureId: String) -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable{onBrochureClick.invoke(regularBrochure.id)},
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {
@@ -203,7 +204,7 @@ private fun BrochureItemPreview() {
                 distance = 5.0,
                 imageUrl = ""
             )
-        )
+        ){}
     }
 }
 
@@ -218,7 +219,7 @@ private fun BrochurePremiumItemPreview() {
                 distance = 5.0,
                 imageUrl = ""
             )
-        )
+        ){}
     }
 }
 

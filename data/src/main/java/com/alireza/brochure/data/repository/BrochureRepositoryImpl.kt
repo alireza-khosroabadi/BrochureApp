@@ -2,7 +2,10 @@ package com.alireza.brochure.data.repository
 
 import com.alireza.brochure.data.jsonParser.BrochureParserFactory
 import com.alireza.brochure.data.mapper.ErrorMapper
+import com.alireza.brochure.data.mapper.toBrochureDetail
 import com.alireza.brochure.data.mapper.toBrochureModel
+import com.alireza.brochure.data.mapper.toPremiumBrochure
+import com.alireza.brochure.data.mapper.toRegularBrochure
 import com.alireza.brochure.database.dataSource.LocalDataSource
 import com.alireza.brochure.database.entity.BaseBrochure
 import com.alireza.brochure.model.appError.AppError
@@ -10,6 +13,7 @@ import com.alireza.brochure.model.baseResult.BaseResult
 import com.alireza.brochure.model.brochure.Brochure
 import com.alireza.brochure.model.brochure.BrochureModel
 import com.alireza.brochure.domain.repository.BrochureRepository
+import com.alireza.brochure.model.brochureDetail.BrochureDetail
 import com.alireza.brochure.netwrok.NetworkDataSource
 import com.alireza.brochure.netwrok.model.ContentDto
 import java.io.IOException
@@ -72,6 +76,10 @@ class BrochureRepositoryImpl @Inject constructor(
     override suspend fun getCachedBrochureList(): List<Brochure> {
         return dataSource.getBrochureList() as List<Brochure>
     }
+
+    override suspend fun findBrochureById(brochureId: String): BrochureDetail =
+        dataSource.findBrochureById(brochureId).toBrochureDetail()
+
 
     private fun isValidBrochure(item: BrochureModel): Boolean {
         return item is Brochure

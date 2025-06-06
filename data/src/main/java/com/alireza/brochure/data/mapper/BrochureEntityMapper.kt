@@ -8,14 +8,16 @@ import com.alireza.brochure.model.brochure.PremiumBrochure
 import com.alireza.brochure.model.brochure.RegularBrochure
 import com.alireza.brochure.model.brochure.SuperBannerCarousel
 import com.alireza.brochure.model.brochure.SuperBannerContent
+import com.alireza.brochure.model.brochureDetail.BrochureDetail
 
 fun BaseBrochure.toBrochureModel(): BrochureModel {
-    return when(this){
-        is BaseBrochure.BrochureWrapperEntity -> when(this.entity.type){
+    return when (this) {
+        is BaseBrochure.BrochureWrapperEntity -> when (this.entity.type) {
             "brochure" -> this.entity.toRegularBrochure()
             "brochurePremium" -> this.entity.toPremiumBrochure()
             else -> this.entity.toRegularBrochure()
         }
+
         is BaseBrochure.SuperBannerWrapperEntity -> SuperBannerCarousel(this.entity.map { it.toSuperBannerCarousel() })
     }
 }
@@ -41,4 +43,20 @@ fun SuperBannerEntity.toSuperBannerCarousel(): SuperBannerContent = SuperBannerC
     clickUrl = clickUrl,
     imageUrl = imageUrl
 )
+
+
+fun BrochureEntity.toBrochureDetail():BrochureDetail =
+   BrochureDetail(
+       id = contentId,
+       title = title,
+       distance = distance,
+       type = type,
+       imageUrl = imageUrl,
+       publishedFrom = DateMapper.formatDate(publishedFrom),
+       publishedUntil = DateMapper.formatDate(publishedUntil),
+       validFrom = DateMapper.formatDate(validFrom),
+       validUntil = DateMapper.formatDate(validUntil),
+       orderIndex = orderIndex,
+       storeLocation = storeLocation.toStoreLocation()
+   )
 

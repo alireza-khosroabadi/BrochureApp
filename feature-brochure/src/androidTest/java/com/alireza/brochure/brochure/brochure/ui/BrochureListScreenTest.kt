@@ -1,4 +1,4 @@
-package com.alireza.brochure.feature_brochure.brochure.ui
+package com.alireza.brochure.brochure.brochure.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -6,6 +6,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.alireza.brochure.ui.component.errorScreen.ErrorUiModel
 import com.alireza.brochure.model.brochure.RegularBrochure
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
+import com.alireza.brochure.feature_brochure.brochure.ui.BrochureListScreen
 import com.alireza.brochure.feature_brochure.brochure.viewModel.BrochureListViewModel
 import com.alireza.brochure.model.appError.AppError
 import io.mockk.coEvery

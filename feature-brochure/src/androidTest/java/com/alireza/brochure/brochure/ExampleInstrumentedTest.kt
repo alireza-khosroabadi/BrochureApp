@@ -1,4 +1,4 @@
-package com.alireza.brochure.feature_brochure
+package com.alireza.brochure.brochure
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

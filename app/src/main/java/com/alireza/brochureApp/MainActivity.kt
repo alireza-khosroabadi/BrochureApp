@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.alireza.brochure.designsystem.theme.BrochureAppTheme
 import com.alireza.brochure.feature_brochure.brochure.ui.BrochureListScreen
+import com.alireza.brochureApp.navHost.AppNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,9 +24,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BrochureAppTheme {
+                val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AppHomeScreen(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        navController = navController
                     )
                 }
             }
@@ -32,8 +37,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AppHomeScreen(modifier: Modifier = Modifier) {
-    Column(modifier= modifier.fillMaxSize()) {
-        BrochureListScreen()
-    }
+fun AppHomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+    AppNavHost(modifier = modifier.fillMaxSize(), navController= navController)
 }
