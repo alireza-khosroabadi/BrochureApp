@@ -3,7 +3,10 @@
 package com.alireza.brochure.feature_brochure.brochure.ui
 
 import android.content.res.Configuration
+import androidx.compose.foundation.MutatePriority
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -11,10 +14,14 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,8 +31,14 @@ import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextAlign
@@ -41,6 +54,9 @@ import com.alireza.brochure.feature_brochure.brochure.ui.previewProvider.Brochur
 import com.alireza.brochure.model.brochure.BrochureModel
 import com.alireza.brochure.model.brochure.SuperBannerCarousel
 import com.alireza.brochure.model.brochure.SuperBannerContent
+import com.alireza.brochure.ui.component.AutoScrollingLazyRow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -56,6 +72,9 @@ fun BrochureGrid(brochures: List<BrochureModel>) {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+
+
+
         items(
             items = brochures,
             key = { item -> item.hashCode() },
@@ -142,6 +161,22 @@ fun BrochureItem(regularBrochure: RegularBrochure) {
 
 @Composable
 fun BannerCarousel(items: List<SuperBannerContent>) {
+
+//    AutoScrollingLazyRow(modifier = Modifier.fillMaxWidth(), list = items){ item ->
+//        Card(
+//            shape = MaterialTheme.shapes.small,
+//            modifier = Modifier
+//                .fillMaxWidth()
+////                .aspectRatio(1f)
+//                .padding(4.dp),
+//            elevation = CardDefaults.cardElevation(4.dp)
+//        ) {
+//            AsyncImageLoader(
+//                modifier = Modifier.fillMaxWidth().height(120.dp),
+//                imageUrl = item.imageUrl
+//            )
+//        }
+//    }
     HorizontalMultiBrowseCarousel(
         state = rememberCarouselState { items.count() },
         modifier = Modifier
