@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.alireza.brochure.feature_brochure.brochure.ui
 
 import android.content.res.Configuration
@@ -15,12 +17,17 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
+import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
+import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -33,6 +40,7 @@ import com.alireza.brochure.model.brochure.RegularBrochure
 import com.alireza.brochure.feature_brochure.brochure.ui.previewProvider.BrochureGridPreviewParameter
 import com.alireza.brochure.model.brochure.BrochureModel
 import com.alireza.brochure.model.brochure.SuperBannerCarousel
+import com.alireza.brochure.model.brochure.SuperBannerContent
 
 
 @Composable
@@ -60,7 +68,7 @@ fun BrochureGrid(brochures: List<BrochureModel>) {
             when (item) {
                 is RegularBrochure -> BrochureItem(regularBrochure = item)
                 is PremiumBrochure -> BrochurePremiumItem(brochure = item)
-                is SuperBannerCarousel -> {}
+                is SuperBannerCarousel -> BannerCarousel(item.banner)
             }
         }
 
@@ -128,6 +136,24 @@ fun BrochureItem(regularBrochure: RegularBrochure) {
 
             Spacer(modifier = Modifier.height(8.dp))
         }
+    }
+}
+
+
+@Composable
+fun BannerCarousel(items: List<SuperBannerContent>) {
+    HorizontalMultiBrowseCarousel(
+        state = rememberCarouselState { items.count() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, bottom = 16.dp),
+        preferredItemWidth = LocalConfiguration.current.screenWidthDp.dp,
+        itemSpacing = 8.dp,
+        contentPadding = PaddingValues(horizontal = 8.dp)
+    ) { i ->
+        val item = items[i]
+        AsyncImageLoader(modifier = Modifier.height(120.dp),
+            imageUrl = item.imageUrl)
     }
 }
 
