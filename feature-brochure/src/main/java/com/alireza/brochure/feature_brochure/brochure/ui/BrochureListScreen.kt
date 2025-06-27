@@ -37,7 +37,10 @@ import com.alireza.brochure.ui.component.errorScreen.ErrorScreen
 import com.alireza.brochure.designsystem.theme.BrochureAppTheme
 
 @Composable
-fun BrochureListScreen(viewModel: BrochureListViewModel = hiltViewModel()) {
+fun BrochureListScreen(
+    viewModel: BrochureListViewModel = hiltViewModel(),
+    onBrochureClick: (brochureId: String) -> Unit
+) {
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val filterState = viewModel.isFilterActive.collectAsStateWithLifecycle()
@@ -46,7 +49,8 @@ fun BrochureListScreen(viewModel: BrochureListViewModel = hiltViewModel()) {
         filterState,
         uiState.value,
         onToggleFilter = viewModel::toggleFilter,
-        fetchBrochure = viewModel::fetchBrochure
+        fetchBrochure = viewModel::fetchBrochure,
+        onBrochureClick = onBrochureClick
     )
 }
 
@@ -55,7 +59,8 @@ private fun ScreenContent(
     filterState: State<Boolean>,
     uiState: BrochureUiState,
     onToggleFilter: () -> Unit,
-    fetchBrochure: () -> Unit
+    fetchBrochure: () -> Unit,
+    onBrochureClick: (brochureId: String) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -68,7 +73,7 @@ private fun ScreenContent(
         when (uiState) {
             is BrochureUiState.Error -> ErrorScreen(appError = uiState.error) { fetchBrochure.invoke() }
             BrochureUiState.Loading -> LoadingComponent()
-            is BrochureUiState.Success -> BrochureList(modifier = Modifier, uiState = uiState)
+            is BrochureUiState.Success -> BrochureList(modifier = Modifier, uiState = uiState, onBrochureClick = onBrochureClick)
             BrochureUiState.EmptyState -> EmptyStateScreen { fetchBrochure.invoke() }
         }
     }
@@ -76,15 +81,17 @@ private fun ScreenContent(
 
 
 @Composable
-private fun BrochureList(modifier: Modifier = Modifier, uiState: BrochureUiState.Success) {
-    Column(modifier= modifier.testTag("BrochureGrid")) {
+private fun BrochureList(modifier: Modifier = Modifier, uiState: BrochureUiState.Success,  onBrochureClick: (brochureId: String) -> Unit) {
+    Column(modifier = modifier.testTag("BrochureGrid")) {
         if (uiState.fromCache) {
             Text(
                 stringResource(R.string.BrochureScreen_offline_data),
-                modifier = Modifier.padding(8.dp).testTag("OfflineMode")
+                modifier = Modifier
+                    .padding(8.dp)
+                    .testTag("OfflineMode")
             )
         }
-        BrochureGrid(uiState.brochures)
+        BrochureGrid(uiState.brochures, onBrochureClick = onBrochureClick)
     }
 }
 
@@ -95,7 +102,7 @@ private fun FilterRow(
     showFilter: Boolean,
     onToggle: () -> Unit
 ) {
-    
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -124,9 +131,14 @@ private fun FilterRow(
 
 @Preview
 @Composable
-fun BrochureListScreenContentPreview(@PreviewParameter(BrochureScreenParameterProvider::class) uiState: BrochureUiState){
+fun BrochureListScreenContentPreview(@PreviewParameter(BrochureScreenParameterProvider::class) uiState: BrochureUiState) {
 
     BrochureAppTheme {
-        ScreenContent(filterState = remember { mutableStateOf(false) }, uiState= uiState, onToggleFilter =  {}) { }
+        ScreenContent(
+            filterState = remember { mutableStateOf(false) },
+            uiState = uiState,
+            onToggleFilter = {},
+            fetchBrochure = {},
+            onBrochureClick = {})
     }
 }

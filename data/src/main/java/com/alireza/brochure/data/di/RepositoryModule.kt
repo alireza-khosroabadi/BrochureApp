@@ -1,8 +1,7 @@
 package com.alireza.brochure.data.di
 
-import com.alireza.brochure.data.localCache.LocalDataStore
-import com.alireza.brochure.data.localCache.LocalDataStoreImpl
 import com.alireza.brochure.data.repository.BrochureRepositoryImpl
+import com.alireza.brochure.database.dataSource.LocalDataSource
 import com.alireza.brochure.domain.repository.BrochureRepository
 import com.alireza.brochure.netwrok.NetworkDataSource
 import dagger.Module
@@ -17,14 +16,10 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataStore(): LocalDataStore = LocalDataStoreImpl()
-
-    @Provides
-    @Singleton
     fun provideBrochureRepository(
         networkDataSource: NetworkDataSource,
-        localDataStore: LocalDataStore
+        dataStore: LocalDataSource
     ): BrochureRepository {
-        return BrochureRepositoryImpl(networkDataSource, localDataStore)
+        return BrochureRepositoryImpl(networkDataSource, dataStore)
     }
 }

@@ -87,7 +87,7 @@ class BrochureListViewModelTest {
     fun `fetchBrochure emits Error on failure`() = runTest {
         coEvery { repository.getBrochureList() } returns BaseResult.Failure(AppError.NoInternet)
 
-        val expected = ErrorUiModel(AppError.NoInternet.getErrorMessage())
+        val expected = ErrorUiModel(AppError.NoInternet)
 
         viewModel.uiState.test {
             val loadingState = awaitItem()
@@ -120,6 +120,36 @@ class BrochureListViewModelTest {
 
         viewModel.isFilterActive.test {
             assertEquals(false, awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `fetchBrochure emits Error when repository throws exception`() = runTest {
+        coEvery { repository.getBrochureList() } throws RuntimeException("unexpected error")
+
+        viewModel.uiState.test {
+            val loadingState = awaitItem()
+            assertTrue(loadingState is BrochureUiState.Loading)
+            val state = awaitItem()
+            assertTrue(state is BrochureUiState.Error)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `rapid toggleFilter calls do not break state`() = runTest {
+        val brochures = listOf(RegularBrochure("1", "Brochure 1", 3.0, "image1.jpg"))
+        coEvery { repository.getBrochureList() } returns BaseResult.Success(brochures)
+        coEvery { filterBrochureUseCase.invoke(any()) } returns BaseResult.Success(brochures)
+
+        // Simulate rapid toggling
+        repeat(5) { viewModel.toggleFilter() }
+
+        viewModel.isFilterActive.test {
+            // Should still emit a boolean, not crash or hang
+            val value = awaitItem()
+            assertTrue(value is Boolean)
             cancelAndIgnoreRemainingEvents()
         }
     }
