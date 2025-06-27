@@ -7,6 +7,7 @@ import com.alireza.brochure.database.dataBase.BrochureAppDataBase
 import com.alireza.brochure.database.entity.BrochureEntity
 import com.alireza.brochure.database.entity.StoreLocationEntity
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before

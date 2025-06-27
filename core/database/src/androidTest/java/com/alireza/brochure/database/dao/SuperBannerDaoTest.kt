@@ -6,6 +6,7 @@ import com.alireza.brochure.database.dao.SuperBannerDao
 import com.alireza.brochure.database.dataBase.BrochureAppDataBase
 import com.alireza.brochure.database.entity.SuperBannerEntity
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
