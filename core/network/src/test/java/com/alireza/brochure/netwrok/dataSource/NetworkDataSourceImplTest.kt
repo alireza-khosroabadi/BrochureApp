@@ -3,7 +3,7 @@ import com.alireza.brochure.netwrok.dataSource.NetworkDataSourceImpl
 import com.alireza.brochure.netwrok.model.BrochureListDto
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -15,7 +15,7 @@ class NetworkDataSourceImplTest {
     private val dataSource = NetworkDataSourceImpl(apiService)
 
     @Test
-    fun `getBrochureList delegates to apiService and returns response`() = runBlocking {
+    fun `getBrochureList delegates to apiService and returns response`() = runTest {
         val expectedResponse = Response.success(BrochureListDto())
         coEvery { apiService.getBrochureList() } returns expectedResponse
 
@@ -24,7 +24,7 @@ class NetworkDataSourceImplTest {
     }
 
     @Test
-    fun `getBrochureList returns error response from apiService`() = runBlocking {
+    fun `getBrochureList returns error response from apiService`() = runTest {
         val errorResponse = Response.error<BrochureListDto>(500, ResponseBody.create(null, "error"))
         coEvery { apiService.getBrochureList() } returns errorResponse
 

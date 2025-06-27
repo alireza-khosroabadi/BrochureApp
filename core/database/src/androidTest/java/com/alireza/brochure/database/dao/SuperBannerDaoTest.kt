@@ -6,6 +6,7 @@ import com.alireza.brochure.database.dao.SuperBannerDao
 import com.alireza.brochure.database.dataBase.BrochureAppDataBase
 import com.alireza.brochure.database.entity.SuperBannerEntity
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -33,7 +34,7 @@ class SuperBannerDaoTest {
     }
 
     @Test
-    fun insertAndGetSuperBanner() = runBlocking {
+    fun insertAndGetSuperBanner() = runTest {
         val entity = SuperBannerEntity(
             id = "banner1",
             publishedFrom = "2023-01-01",
@@ -50,7 +51,7 @@ class SuperBannerDaoTest {
     }
 
     @Test
-    fun getByGroup_returnsCorrectBanners() = runBlocking {
+    fun getByGroup_returnsCorrectBanners() = runTest {
         val entity1 = SuperBannerEntity(
             id = "banner1",
             publishedFrom = "2023-01-01",

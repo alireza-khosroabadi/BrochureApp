@@ -11,12 +11,12 @@ import com.alireza.brochure.netwrok.model.ContentDto
 import com.alireza.brochure.netwrok.model.EmbeddedDto
 import io.mockk.Runs
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
@@ -34,7 +34,7 @@ class BrochureRepositoryImplTest {
     }
 
     @Test
-    fun `getBrochureList returns success and caches data`() = runBlocking {
+    fun `getBrochureList returns success and caches data`() = runTest {
         val contentDto = ContentDto()
         val embeddedDto = EmbeddedDto(contents = listOf(contentDto))
         val body = BrochureListDto(embedded = embeddedDto)
@@ -50,7 +50,7 @@ class BrochureRepositoryImplTest {
     }
 
     @Test
-    fun `getBrochureList returns failure on server error`() = runBlocking {
+    fun `getBrochureList returns failure on server error`() = runTest {
         val errorBody = ResponseBody.create(null, "Server error")
         val response = Response.error<BrochureListDto>(500, errorBody)
         coEvery { networkDataSource.getBrochureList() } returns response
@@ -61,7 +61,7 @@ class BrochureRepositoryImplTest {
     }
 
     @Test
-    fun `getBrochureList returns cached data on IOException if cache is not empty`() = runBlocking {
+    fun `getBrochureList returns cached data on IOException if cache is not empty`() = runTest {
         coEvery { networkDataSource.getBrochureList() } throws IOException()
         val cachedBrochure = BrochureEntity(
             contentId = "1",
@@ -85,7 +85,7 @@ class BrochureRepositoryImplTest {
     }
 
     @Test
-    fun `getBrochureList returns failure on IOException if cache is empty`() = runBlocking {
+    fun `getBrochureList returns failure on IOException if cache is empty`() = runTest {
         coEvery { networkDataSource.getBrochureList() } throws IOException()
         coEvery { localDataSource.getSuperBanner() } returns emptyList()
         coEvery { localDataSource.getBrochureList() } returns emptyList()
@@ -96,7 +96,7 @@ class BrochureRepositoryImplTest {
     }
 
     @Test
-    fun `getBrochureList returns failure on generic exception`() = runBlocking {
+    fun `getBrochureList returns failure on generic exception`() = runTest {
         coEvery { networkDataSource.getBrochureList() } throws RuntimeException("Unknown error")
         coEvery { localDataSource.getSuperBanner() } returns emptyList()
         coEvery { localDataSource.getBrochureList() } returns emptyList()
@@ -106,7 +106,7 @@ class BrochureRepositoryImplTest {
     }
 
     @Test
-    fun `getCachedBrochureList returns data from localDataSource`() = runBlocking {
+    fun `getCachedBrochureList returns data from localDataSource`() = runTest {
         val brochure = BrochureEntity(
             contentId = "1",
             title = "Test",
@@ -126,7 +126,7 @@ class BrochureRepositoryImplTest {
     }
 
     @Test
-    fun `findBrochureById returns mapped detail`() = runBlocking {
+    fun `findBrochureById returns mapped detail`() = runTest {
         val brochure = BrochureEntity(
             contentId = "1",
             title = "Test",

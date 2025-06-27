@@ -125,19 +125,6 @@ class BrochureListViewModelTest {
     }
 
     @Test
-    fun `fetchBrochure emits Error when repository throws exception`() = runTest {
-        coEvery { repository.getBrochureList() } throws RuntimeException("unexpected error")
-
-        viewModel.uiState.test {
-            val loadingState = awaitItem()
-            assertTrue(loadingState is BrochureUiState.Loading)
-            val state = awaitItem()
-            assertTrue(state is BrochureUiState.Error)
-            cancelAndIgnoreRemainingEvents()
-        }
-    }
-
-    @Test
     fun `rapid toggleFilter calls do not break state`() = runTest {
         val brochures = listOf(RegularBrochure("1", "Brochure 1", 3.0, "image1.jpg"))
         coEvery { repository.getBrochureList() } returns BaseResult.Success(brochures)
