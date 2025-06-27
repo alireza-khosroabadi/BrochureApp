@@ -1,108 +1,147 @@
 package com.alireza.brochure.data.repository
 
-import com.alireza.brochure.data.fakeData.brochureList
-import com.alireza.brochure.data.localCache.LocalDataStore
-import com.alireza.brochure.data.remote.apiService.BrochureApiService
-import com.alireza.brochure.data.remote.dto.BrochureListDto
-import com.alireza.brochure.model.brochure.BrochureModel
+import com.alireza.brochure.database.dataSource.LocalDataSource
+import com.alireza.brochure.database.entity.BrochureEntity
 import com.alireza.brochure.model.appError.AppError
 import com.alireza.brochure.model.baseResult.BaseResult
+import com.alireza.brochure.model.brochureDetail.BrochureDetail
+import com.alireza.brochure.netwrok.NetworkDataSource
+import com.alireza.brochure.netwrok.model.BrochureListDto
+import com.alireza.brochure.netwrok.model.ContentDto
+import com.alireza.brochure.netwrok.model.EmbeddedDto
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody.Companion.toResponseBody
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import kotlinx.coroutines.runBlocking
+import okhttp3.ResponseBody
+import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Test
 import retrofit2.Response
 import java.io.IOException
-import kotlin.test.Test
 
 class BrochureRepositoryImplTest {
 
-
-    private lateinit var brochureApiService: BrochureApiService
-    private lateinit var localDataStore: LocalDataStore
-    private lateinit var brochureRepository: BrochureRepositoryImpl
+    private val networkDataSource: NetworkDataSource = mockk()
+    private val localDataSource: LocalDataSource = mockk()
+    private lateinit var repository: BrochureRepositoryImpl
 
     @Before
     fun setUp() {
-        brochureApiService = mockk()
-        localDataStore = mockk()
-        brochureRepository = BrochureRepositoryImpl(brochureApiService, localDataStore)
+        repository = BrochureRepositoryImpl(networkDataSource, localDataSource)
     }
 
-
-
     @Test
-    fun `brochureList returns success with valid data`() = runTest {
+    fun `getBrochureList returns success and caches data`() = runBlocking {
+        val contentDto = ContentDto()
+        val embeddedDto = EmbeddedDto(contents = listOf(contentDto))
+        val body = BrochureListDto(embedded = embeddedDto)
+        val response = Response.success(body)
+        coEvery { networkDataSource.getBrochureList() } returns response
+        coEvery { localDataSource.getSuperBanner() } returns emptyList()
+        coEvery { localDataSource.getBrochureList() } returns emptyList()
+        coEvery { localDataSource.saveSuperBanner(any()) } just Runs
+        coEvery { localDataSource.saveBrochure(any()) } just Runs
 
-        val response = Response.success(BrochureListDto())
-
-        val expectedResult = brochureList
-
-        coEvery { brochureApiService.getBrochureList() } returns response
-        every { localDataStore.get() } returns expectedResult as List<BrochureModel>?
-        every { localDataStore.set(any()) } returns Unit
-
-        val result = brochureRepository.getBrochureList()
-
+        val result = repository.getBrochureList()
         assertTrue(result is BaseResult.Success)
-        assertEquals(brochureList, (result as BaseResult.Success).data)
     }
 
     @Test
-    fun `brochureList caches data from remote source`() = runTest {
+    fun `getBrochureList returns failure on server error`() = runBlocking {
+        val errorBody = ResponseBody.create(null, "Server error")
+        val response = Response.error<BrochureListDto>(500, errorBody)
+        coEvery { networkDataSource.getBrochureList() } returns response
 
-        val response = Response.success(BrochureListDto())
-
-        coEvery { brochureApiService.getBrochureList() } returns response
-        every { localDataStore.set(any()) } returns Unit
-
-        brochureRepository.getBrochureList()
-
-        verify(exactly = 1) { localDataStore.set(emptyList()) }
-    }
-
-    @Test
-    fun `brochureList returns failure when api call fails`() = runTest {
-
-        val errorResponse = Response.error<BrochureListDto>(500, "Error".toResponseBody())
-        coEvery { brochureApiService.getBrochureList() } returns errorResponse
-
-        val result = brochureRepository.getBrochureList()
-
+        val result = repository.getBrochureList()
         assertTrue(result is BaseResult.Failure)
         assertTrue((result as BaseResult.Failure).error is AppError.ServerError)
     }
 
     @Test
-    fun `brochureList returns cached data when api call throws IOException and cache is not empty`() = runTest {
+    fun `getBrochureList returns cached data on IOException if cache is not empty`() = runBlocking {
+        coEvery { networkDataSource.getBrochureList() } throws IOException()
+        val cachedBrochure = BrochureEntity(
+            contentId = "1",
+            title = "Test",
+            distance = 1.0,
+            type = "Type",
+            imageUrl = "url",
+            publishedFrom = "2023-01-01",
+            publishedUntil = "2023-12-31",
+            validFrom = "2023-01-01",
+            validUntil = "2023-12-31",
+            orderIndex = 1,
+            storeLocation = mockk(relaxed = true)
+        )
+        coEvery { localDataSource.getSuperBanner() } returns emptyList()
+        coEvery { localDataSource.getBrochureList() } returns listOf(cachedBrochure)
 
-        coEvery { brochureApiService.getBrochureList() } throws IOException()
-        val cachedData = brochureList
-        every { localDataStore.get() } returns cachedData as List<BrochureModel>?
-
-        val result = brochureRepository.getBrochureList()
-
+        val result = repository.getBrochureList()
         assertTrue(result is BaseResult.Success)
-        assertEquals(cachedData, (result as BaseResult.Success).data)
-        assertTrue(result.fromCache)
+        assertTrue((result as BaseResult.Success).fromCache)
     }
-
 
     @Test
-    fun `cachedBrochureList returns filtered data from cache`() = runTest {
+    fun `getBrochureList returns failure on IOException if cache is empty`() = runBlocking {
+        coEvery { networkDataSource.getBrochureList() } throws IOException()
+        coEvery { localDataSource.getSuperBanner() } returns emptyList()
+        coEvery { localDataSource.getBrochureList() } returns emptyList()
 
-        val cachedData = brochureList
-        val expectedResult = brochureList
-        every { localDataStore.get() } returns cachedData as List<BrochureModel>?
-
-        val result = brochureRepository.getCachedBrochureList()
-
-        assertEquals(expectedResult, result)
+        val result = repository.getBrochureList()
+        assertTrue(result is BaseResult.Failure)
+        assertEquals(AppError.NoInternet, (result as BaseResult.Failure).error)
     }
 
+    @Test
+    fun `getBrochureList returns failure on generic exception`() = runBlocking {
+        coEvery { networkDataSource.getBrochureList() } throws RuntimeException("Unknown error")
+        coEvery { localDataSource.getSuperBanner() } returns emptyList()
+        coEvery { localDataSource.getBrochureList() } returns emptyList()
+
+        val result = repository.getBrochureList()
+        assertTrue(result is BaseResult.Failure)
+    }
+
+    @Test
+    fun `getCachedBrochureList returns data from localDataSource`() = runBlocking {
+        val brochure = BrochureEntity(
+            contentId = "1",
+            title = "Test",
+            distance = 1.0,
+            type = "Type",
+            imageUrl = "url",
+            publishedFrom = "2023-01-01",
+            publishedUntil = "2023-12-31",
+            validFrom = "2023-01-01",
+            validUntil = "2023-12-31",
+            orderIndex = 1,
+            storeLocation = mockk(relaxed = true)
+        )
+        coEvery { localDataSource.getBrochureList() } returns listOf(brochure)
+        val result = repository.getCachedBrochureList()
+        assertEquals(1, result.size)
+    }
+
+    @Test
+    fun `findBrochureById returns mapped detail`() = runBlocking {
+        val brochure = BrochureEntity(
+            contentId = "1",
+            title = "Test",
+            distance = 1.0,
+            type = "Type",
+            imageUrl = "url",
+            publishedFrom = "2023-01-01",
+            publishedUntil = "2023-12-31",
+            validFrom = "2023-01-01",
+            validUntil = "2023-12-31",
+            orderIndex = 1,
+            storeLocation = mockk(relaxed = true)
+        )
+        coEvery { localDataSource.findBrochureById("1") } returns brochure
+        val result = repository.findBrochureById("1")
+        assertTrue(result is BrochureDetail)
+    }
 }
