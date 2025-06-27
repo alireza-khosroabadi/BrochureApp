@@ -1,121 +1,126 @@
 # BrochureApp
 
-A modern Android application built with Jetpack Compose, following clean architecture principles and MVVM pattern. This app provides a platform for browsing and managing brochures with a focus on user experience and performance.
+A modern, modular Android application built with Jetpack Compose, Clean Architecture, and MVVM. BrochureApp provides a platform for browsing and managing brochures, with a focus on user experience, scalability, and robust testing.
+
+---
 
 ## 🚀 Features
 
-- **Modern UI**: Built with Jetpack Compose and Material 3
-- **Clean Architecture**: Following SOLID principles and separation of concerns
-- **MVVM Pattern**: For better separation of UI and business logic
-- **Dependency Injection**: Using Hilt for efficient dependency management
-- **Modular Structure**: Feature-based modularization for better scalability
-- **Offline Support**: Caching mechanism for offline access
-- **Error Handling**: Graceful error handling and user feedback
-- **Testing**: Comprehensive test coverage including unit and UI tests
+- **Modern UI:** Built with Jetpack Compose and Material 3
+- **Clean Architecture:** SOLID principles, separation of concerns, and modularization
+- **MVVM Pattern:** Clear separation of UI and business logic
+- **Dependency Injection:** Powered by Hilt
+- **Offline Support:** Caching for offline access
+- **Error Handling:** Graceful error handling and user feedback
+- **Comprehensive Testing:** Unit, integration, and UI/Compose tests
+- **Preview-Driven Development:** Parameterized Compose previews for all major screens
+
+---
 
 ## 🛠 Tech Stack
 
-- **Language**: Kotlin
-- **UI Framework**: Jetpack Compose
-- **Architecture Pattern**: MVVM
-- **Dependency Injection**: Hilt
-- **Minimum SDK**: 24
-- **Target SDK**: 35
-- **Build System**: Gradle (Kotlin DSL)
+- **Language:** Kotlin
+- **UI Framework:** Jetpack Compose
+- **Architecture:** MVVM, Clean Architecture
+- **Dependency Injection:** Hilt
+- **Networking:** Retrofit, OkHttp, MockWebServer
+- **Database:** Room
+- **Testing:** JUnit, MockK, Turbine, MockWebServer, Compose UI Test
+- **Build System:** Gradle (Kotlin DSL)
+- **Minimum SDK:** 24
+- **Target SDK:** 35
+
+---
 
 ## 📦 Project Structure
 
-The project follows a modular architecture with the following modules:
+The project is organized into feature and core modules for maximum scalability and maintainability:
 
-- `app`: Main application module
-- `core`: Core functionality modules
-  - `ui`: Common UI components
-  - `designSystem`: Design system components
-  - `network`: Network handling and API clients
-  - `model`: Common data models and entities
-- `feature-brochure`: Brochure feature module
-- `data`: Data layer implementation
-- `domain`: Domain layer with business logic
+- `app`: Main application entry point
+- `core`:
+  - `ui`: Common Compose UI components
+  - `designSystem`: Theming, typography, and design tokens
+  - `network`: API clients, data sources, and network models
+  - `database`: Room database, DAOs, and entities
+  - `model`: Shared data models and entities
+- `domain`: Business logic, use cases, and repository interfaces
+- `data`: Data layer, mappers, repository implementations, and data sources
+- `feature-brochure`: Brochure listing and filtering feature
+- `feature-brochureDetail`: Brochure detail and related screens
+
+---
 
 ## 🔄 Module Dependencies
 
-See the detailed module dependencies in [docs/module-dependencies.md](docs/module-dependencies.md)
+See [docs/module-dependencies.md](docs/module-dependencies.md) for a detailed module dependency graph.
+
+---
 
 ## 🏗 Architecture
 
-The project follows Clean Architecture principles with the following layers:
+BrochureApp follows Clean Architecture:
 
-- **Presentation Layer**: UI components and ViewModels
-- **Domain Layer**: Business logic and use cases
-- **Data Layer**: Repository implementations and data sources
+- **Presentation Layer:** Compose UI, ViewModels, and navigation
+- **Domain Layer:** Use cases, business logic, and repository interfaces
+- **Data Layer:** Repository implementations, data sources, mappers, and cache
 
-### Key Components
-
-- **Use Cases**: Business logic implementation
-- **Repositories**: Data access abstraction
-- **ViewModels**: UI state management
-- **Compose UI**: Modern UI implementation
-- **DI Modules**: Dependency injection setup
-- **Network**: API clients and network handling
-- **Models**: Common data structures
-
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Android Studio Hedgehog (2023.1.1) or later
-- JDK 11 or later
-- Android SDK 35
-- Kotlin 1.9.0 or later
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/BrochureApp.git
-```
-
-2. Open the project in Android Studio
-
-3. Sync the project with Gradle files
-
-4. Run the application on an emulator or physical device
+---
 
 ## 🧪 Testing
 
-The project includes comprehensive testing:
+BrochureApp is built with testing in mind:
 
-- **Unit Tests**: Testing business logic and ViewModels
-- **UI Tests**: Testing Compose UI components
-- **Integration Tests**: Testing module interactions
-- **Test Coverage**: Aiming for high test coverage
+- **Unit Tests:** For business logic, ViewModels, repositories, mappers, and error handling
+- **UI/Compose Tests:** For all major screens, user interactions, and state rendering
+- **Integration Tests:** For network layer (using MockWebServer) and module interactions
+- **Test Coverage:** High coverage across all layers
 
 ### Running Tests
 
 ```bash
-# Run all tests
+# Run all unit tests
 ./gradlew test
 
-# Run specific test module
+# Run instrumented UI tests
+./gradlew connectedAndroidTest
+
+# Run tests for a specific module
 ./gradlew :feature-brochure:test
 ```
+
+---
+
+## 🖼️ Compose Previews & UI Testing
+
+- **PreviewParameterProvider** is used for parameterized Compose previews, enabling design-time inspection and robust UI/Compose tests for multiple states and data variations.
+- All major screens have previews for both normal and edge cases (e.g., empty, error, loading).
+- UI tests cover loading, success, error, empty, and user interaction states.
+
+---
 
 ## 📱 Screenshots
 
 [Add screenshots of your app here]
 
-## 🔧 Configuration
+---
 
-The app can be configured through:
+## 🔧 Configuration
 
 - `local.properties`: Local development settings
 - `gradle.properties`: Build configuration
 - Environment variables for API endpoints
+
+---
 
 ## 🙏 Acknowledgments
 
 - [Jetpack Compose](https://developer.android.com/jetpack/compose)
 - [Material 3](https://m3.material.io/)
 - [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
-- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) 
+- [Room](https://developer.android.com/training/data-storage/room)
+- [MockWebServer](https://square.github.io/okhttp/features/mockwebserver/)
+- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+
+---
+
+**Feel free to further customize this README with badges, contribution guidelines, or more screenshots as your project evolves!** 
