@@ -5,15 +5,15 @@ import com.alireza.brochure.database.dataSource.RoomDataSource
 import com.alireza.brochure.database.entity.BrochureEntity
 import com.alireza.brochure.database.entity.StoreLocationEntity
 import com.alireza.brochure.database.entity.SuperBannerEntity
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import io.mockk.clearAllMocks
-import org.junit.After
 
 class RoomDataSourceTest {
 
@@ -30,7 +30,7 @@ class RoomDataSourceTest {
     }
 
     @Test
-    fun `getBrochureList returns data from dao`() = runBlocking {
+    fun `getBrochureList returns data from dao`() = runTest {
         val expected = listOf(
             BrochureEntity(
                 contentId = "1",
@@ -53,7 +53,7 @@ class RoomDataSourceTest {
     }
 
     @Test
-    fun `saveBrochure calls insert on dao`() = runBlocking {
+    fun `saveBrochure calls insert on dao`() = runTest {
         val brochure = BrochureEntity(
             contentId = "2",
             title = "Another",
@@ -73,14 +73,14 @@ class RoomDataSourceTest {
     }
 
     @Test
-    fun `deleteAllBrochure calls clearTable on dao`() = runBlocking {
+    fun `deleteAllBrochure calls clearTable on dao`() = runTest {
         coEvery { brochureDao.clearTable() } returns Unit
         dataSource.deleteAllBrochure()
         coVerify { brochureDao.clearTable() }
     }
 
     @Test
-    fun `findBrochureById returns correct entity`() = runBlocking {
+    fun `findBrochureById returns correct entity`() = runTest {
         val brochure = BrochureEntity(
             contentId = "3",
             title = "FindMe",
@@ -100,7 +100,7 @@ class RoomDataSourceTest {
     }
 
     @Test
-    fun `saveSuperBanner calls insertAll on superBannerDao`() = runBlocking {
+    fun `saveSuperBanner calls insertAll on superBannerDao`() = runTest {
         val banners = listOf(
             SuperBannerEntity(
                 id = "banner1",
@@ -118,7 +118,7 @@ class RoomDataSourceTest {
     }
 
     @Test
-    fun `getSuperBanner returns banners from superBannerDao`() = runBlocking {
+    fun `getSuperBanner returns banners from superBannerDao`() = runTest {
         val banners = listOf(
             SuperBannerEntity(
                 id = "banner2",
@@ -136,14 +136,14 @@ class RoomDataSourceTest {
     }
 
     @Test
-    fun `getBrochureList returns empty when dao returns empty`() = runBlocking {
+    fun `getBrochureList returns empty when dao returns empty`() = runTest {
         coEvery { brochureDao.getAllBrochure() } returns emptyList()
         val result = dataSource.getBrochureList()
         assertEquals(0, result.size)
     }
 
     @Test
-    fun `saveBrochureList with duplicates calls insertAll`() = runBlocking {
+    fun `saveBrochureList with duplicates calls insertAll`() = runTest {
         val brochures = listOf(
             BrochureEntity(
                 contentId = "1",

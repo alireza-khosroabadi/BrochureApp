@@ -34,7 +34,7 @@ class BrochureDaoTest {
     }
 
     @Test
-    fun insertAndGetBrochure() = runBlocking {
+    fun insertAndGetBrochure() = runTest {
         val entity = BrochureEntity(
             contentId = "1",
             title = "Test",

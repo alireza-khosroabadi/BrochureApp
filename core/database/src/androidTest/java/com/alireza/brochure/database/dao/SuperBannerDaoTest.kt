@@ -33,7 +33,7 @@ class SuperBannerDaoTest {
     }
 
     @Test
-    fun insertAndGetSuperBanner() = runBlocking {
+    fun insertAndGetSuperBanner() = runTest {
         val entity = SuperBannerEntity(
             id = "banner1",
             publishedFrom = "2023-01-01",
@@ -50,7 +50,7 @@ class SuperBannerDaoTest {
     }
 
     @Test
-    fun getByGroup_returnsCorrectBanners() = runBlocking {
+    fun getByGroup_returnsCorrectBanners() = runTest {
         val entity1 = SuperBannerEntity(
             id = "banner1",
             publishedFrom = "2023-01-01",
