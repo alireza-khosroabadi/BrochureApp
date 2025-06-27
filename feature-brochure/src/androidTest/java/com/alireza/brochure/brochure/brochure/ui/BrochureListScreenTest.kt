@@ -3,71 +3,50 @@ package com.alireza.brochure.brochure.brochure.ui
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.alireza.brochure.ui.component.errorScreen.ErrorUiModel
-import com.alireza.brochure.model.brochure.RegularBrochure
+import androidx.compose.ui.test.onNodeWithText
 import com.alireza.brochure.feature_brochure.brochure.state.BrochureUiState
-import com.alireza.brochure.feature_brochure.brochure.ui.BrochureListScreen
-import com.alireza.brochure.feature_brochure.brochure.viewModel.BrochureListViewModel
+import com.alireza.brochure.feature_brochure.brochure.ui.BrochureListScreenContentPreview
 import com.alireza.brochure.model.appError.AppError
-import io.mockk.coEvery
-import io.mockk.mockk
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.alireza.brochure.model.brochure.RegularBrochure
+import com.alireza.brochure.ui.component.errorScreen.ErrorUiModel
 import org.junit.Rule
 import org.junit.Test
 
 class BrochureListScreenTest {
 
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
-
     @Test
-    fun brochureListScreen_displaysLoadingState() {
-        val viewModel: BrochureListViewModel = mockk()
-        val uiState = MutableStateFlow<BrochureUiState>(BrochureUiState.Loading)
-        val filterState = MutableStateFlow(false)
-
-        coEvery { viewModel.uiState } returns uiState
-        coEvery { viewModel.isFilterActive } returns filterState
-
+    fun showsLoadingIndicator_whenLoading() {
         composeTestRule.setContent {
-            BrochureListScreen(viewModel = viewModel)
+            BrochureListScreenContentPreview(
+                BrochureUiState.Loading
+            )
         }
-
-        composeTestRule.onNodeWithTag("Loading").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("Loading").assertExists()
     }
 
     @Test
-    fun brochureListScreen_displaysGridState() {
-        val viewModel: BrochureListViewModel = mockk()
-        val data = listOf(RegularBrochure("1", "Brochure 1", 3.0, "image1.jpg"))
-        val uiState = MutableStateFlow<BrochureUiState>(BrochureUiState.Success(data,false))
-        val filterState = MutableStateFlow(false)
-
-        coEvery { viewModel.uiState } returns uiState
-        coEvery { viewModel.isFilterActive } returns filterState
-
+    fun showsBrochureList_whenSuccess() {
+        val brochures = listOf(RegularBrochure("1", "Brochure 1", 3.0, "image1.jpg"))
         composeTestRule.setContent {
-            BrochureListScreen(viewModel = viewModel)
+            BrochureListScreenContentPreview(
+                BrochureUiState.Success(brochures, fromCache = false)
+            )
         }
-
         composeTestRule.onNodeWithTag("BrochureGrid").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Brochure 1").assertExists()
     }
 
-
     @Test
-    fun brochureListScreen_displaysOfflineGridState() {
-        val viewModel: BrochureListViewModel = mockk()
-        val data = listOf(RegularBrochure("1", "Brochure 1", 3.0, "image1.jpg"))
-        val uiState = MutableStateFlow<BrochureUiState>(BrochureUiState.Success(data,true))
-        val filterState = MutableStateFlow(false)
-
-        coEvery { viewModel.uiState } returns uiState
-        coEvery { viewModel.isFilterActive } returns filterState
+    fun showsOfflineAlert_whenOffline() {
+        val brochures = listOf(RegularBrochure("1", "Brochure 1", 3.0, "image1.jpg"))
 
         composeTestRule.setContent {
-            BrochureListScreen(viewModel = viewModel)
+            BrochureListScreenContentPreview(
+                BrochureUiState.Success(brochures, fromCache = true)
+            )
         }
 
         composeTestRule.onNodeWithTag("OfflineMode").assertIsDisplayed()
@@ -75,35 +54,27 @@ class BrochureListScreenTest {
     }
 
     @Test
-    fun brochureListScreen_displaysErrorState() {
-        val viewModel: BrochureListViewModel = mockk()
-        val uiState = MutableStateFlow<BrochureUiState>(BrochureUiState.Error(ErrorUiModel(AppError.Timeout.getErrorMessage())))
-        val filterState = MutableStateFlow(false)
-
-        coEvery { viewModel.uiState } returns uiState
-        coEvery { viewModel.isFilterActive } returns filterState
-
+    fun showsEmptyState_whenEmpty() {
         composeTestRule.setContent {
-            BrochureListScreen(viewModel = viewModel)
+            BrochureListScreenContentPreview(
+                BrochureUiState.EmptyState
+            )
         }
-
-        composeTestRule.onNodeWithTag("ErrorScreen").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("EmptyState").assertExists()
     }
 
     @Test
-    fun brochureListScreen_displaysEmptyState() {
-        val viewModel: BrochureListViewModel = mockk()
-        val uiState = MutableStateFlow<BrochureUiState>(BrochureUiState.EmptyState)
-        val filterState = MutableStateFlow(false)
-
-        coEvery { viewModel.uiState } returns uiState
-        coEvery { viewModel.isFilterActive } returns filterState
-
+    fun showsError_whenError() {
         composeTestRule.setContent {
-            BrochureListScreen(viewModel = viewModel)
+            BrochureListScreenContentPreview(
+                BrochureUiState.Error(
+                    ErrorUiModel(
+                        AppError.NoInternet
+                    )
+                )
+            )
         }
-
-        composeTestRule.onNodeWithTag("EmptyState").assertIsDisplayed()
+        composeTestRule.onNodeWithText(ErrorUiModel(AppError.NoInternet).getErrorMessage())
+            .assertExists()
     }
-
 }

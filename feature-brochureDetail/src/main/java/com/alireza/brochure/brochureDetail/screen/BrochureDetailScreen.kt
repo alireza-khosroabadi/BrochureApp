@@ -38,6 +38,10 @@ import com.alireza.brochure.designsystem.component.AsyncImageLoader
 import com.alireza.brochure.model.brochureDetail.BrochureDetail
 import com.alireza.brochure.model.brochureDetail.StoreLocation
 import com.alireza.brochure.ui.component.dashedLine.DashedDivider
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.alireza.brochure.designsystem.theme.BrochureAppTheme
+import com.alireza.brochure.brochureDetail.screen.preview.BrochureDetailScreenPreviewParameterProvider
 
 @Composable
 fun BrochureDetailScreen(
@@ -84,6 +88,37 @@ fun BrochureDetailScreen(
                 }
             }
 
+        }
+    }
+}
+
+@Preview
+@Composable
+fun BrochureDetailScreenContentPreview(
+    @PreviewParameter(BrochureDetailScreenPreviewParameterProvider::class) detail: BrochureDetail?
+) {
+    BrochureAppTheme {
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = Modifier,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null
+                )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center,
+                    text = detail?.title ?: "Not Found"
+                )
+            }
+            detail?.let {
+                BrochureDetailVertical(brochure = it)
+            }
         }
     }
 }
