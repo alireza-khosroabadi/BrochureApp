@@ -20,12 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.alireza.brochure.model.brochureDetail.StoreLocation
 import com.alireza.brochure.ui.component.dashedLine.DashedDivider
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.maps.android.compose.rememberMarkerState
 
 
 @Composable
@@ -112,23 +106,4 @@ fun ValidDateRow(from: String, to: String) {
 
     }
 
-}
-
-@Composable
-fun MapComponent(modifier: Modifier = Modifier) {
-    val singapore = LatLng(1.35, 103.87)
-    val singaporeMarkerState = rememberMarkerState(position = singapore)
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(singapore, 10f)
-    }
-    GoogleMap(
-        modifier = modifier,
-        cameraPositionState = cameraPositionState
-    ) {
-        Marker(
-            state = singaporeMarkerState,
-            title = "Singapore",
-            snippet = "Marker in Singapore"
-        )
-    }
 }

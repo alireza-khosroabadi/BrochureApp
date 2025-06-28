@@ -66,7 +66,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.lifecycle.viewModelCompose)
-    implementation(libs.maps.compose)
+//    implementation(libs.maps.compose)
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
     implementation(libs.kotlinx.coroutines.android)

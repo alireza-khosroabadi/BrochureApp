@@ -28,13 +28,6 @@ internal abstract class BrochureAppDataBase : RoomDatabase() {
                     "brochure-db"
                 )
                     .fallbackToDestructiveMigration()
-
-//                if (BuildConfig.DEBUG) {
-                    builder.setQueryCallback({ query, args ->
-                        Log.d("RoomQuery", "Query: $query | Args: $args")
-                    }, Executors.newSingleThreadExecutor())
-//                    }
-
                 val instance = builder.build()
                     INSTANCE = instance
                 instance
